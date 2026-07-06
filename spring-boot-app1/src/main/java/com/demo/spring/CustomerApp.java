@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 public class CustomerApp {
 
 	
-	private NotificationService emailNotification;
-	
+		
 	private NotificationService notificationService;
 	
 	//@Autowired
