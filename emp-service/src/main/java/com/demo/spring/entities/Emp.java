@@ -2,6 +2,8 @@ package com.demo.spring.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -9,6 +11,7 @@ import jakarta.persistence.Table;
 @Table(name="MYEMP")
 public class Emp {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="EMPNO")
 	private Integer empId;
 	
@@ -23,8 +26,7 @@ public class Emp {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Emp(Integer empId, String name, String city, Double salary) {
-		this.empId = empId;
+	public Emp(String name, String city, Double salary) {
 		this.name = name;
 		this.city = city;
 		this.salary = salary;
