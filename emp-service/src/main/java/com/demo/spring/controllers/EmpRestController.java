@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +28,16 @@ public class EmpRestController {
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Emp> getOneEmp(@PathVariable Integer id) {
 		return ResponseEntity.ok(empService.findOneEmp(id));
+	}
+	
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Emp>> listAllEmps(){
+		return ResponseEntity.ok(empService.getAll());
+	}
+	
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Emp> save( @RequestBody Emp emp){
+		System.out.println("At POST controller entry empId : "+emp.getEmpId());
+		return ResponseEntity.ok(empService.saveEmp(emp));
 	}
 }

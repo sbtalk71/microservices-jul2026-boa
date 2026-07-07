@@ -6,4 +6,5 @@ import com.demo.spring.entities.Emp;
 
 public interface EmpRepository extends JpaRepository<Emp, Integer> {
 
+	
 }

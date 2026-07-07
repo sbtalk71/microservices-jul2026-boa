@@ -1,11 +1,13 @@
 package com.demo.spring.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.demo.spring.EmpRepository;
 import com.demo.spring.entities.Emp;
+import com.demo.spring.exceptions.EmpNotFoundException;
 
 @Service
 public class EmpService {
@@ -23,11 +25,19 @@ public class EmpService {
 		if(empOp.isPresent()) {
 			return empOp.get();
 		}else {
-			throw new RuntimeException("Emp Not Found..");
+			throw new EmpNotFoundException("Emp Not Found..");
 		}
 		
 		//return empRepository.findById(id).orElseThrow(RuntimeException::new);
 	}
 	
+	public List<Emp> getAll(){
+		return empRepository.findAll();
+	}
+	
+	
+	public Emp saveEmp(Emp e) {
+		return empRepository.save(e);
+	}
 	
 }
