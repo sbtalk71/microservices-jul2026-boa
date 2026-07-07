@@ -16,6 +16,7 @@ public class EmpService {
 
 	public EmpService(EmpRepository empRepository) {
 		this.empRepository = empRepository;
+		System.out.println("Repository class : "+empRepository.getClass().getName());
 	}
 	
 	
@@ -39,5 +40,17 @@ public class EmpService {
 	public Emp saveEmp(Emp e) {
 		return empRepository.save(e);
 	}
+	
+	public Emp updateEmp(Integer id,Emp e) {
+		
+		if(empRepository.existsById(id)) {
+			e.setEmpId(id);
+		return empRepository.save(e);
+		}else {
+			throw new EmpNotFoundException("EMP Not found");
+		}
+	}
+	
+	
 	
 }

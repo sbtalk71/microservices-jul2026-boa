@@ -7,11 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.spring.EmpRepository;
 import com.demo.spring.entities.Emp;
 import com.demo.spring.services.EmpService;
 
@@ -39,5 +39,11 @@ public class EmpRestController {
 	public ResponseEntity<Emp> save( @RequestBody Emp emp){
 		System.out.println("At POST controller entry empId : "+emp.getEmpId());
 		return ResponseEntity.ok(empService.saveEmp(emp));
+	}
+	
+	@PutMapping( path="/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Emp> update(@PathVariable Integer id,  @RequestBody Emp emp){
+		
+		return ResponseEntity.ok(empService.updateEmp(id,emp));
 	}
 }
