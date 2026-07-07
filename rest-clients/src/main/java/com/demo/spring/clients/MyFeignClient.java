@@ -10,9 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.demo.spring.EmpDTO;
 
-@FeignClient(url = "http://localhost:8181/emp",name="client3")
+@FeignClient(url = "http://localhost:8181/emp",name="anything")
 public interface MyFeignClient {
 
 	@GetMapping(path="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EmpDTO> getEmpData(@PathVariable Integer id);
 }
+
+
+/**
+ * 
+ *  http://localhost:8181/emp/id
+ */

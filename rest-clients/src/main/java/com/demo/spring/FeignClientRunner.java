@@ -12,6 +12,7 @@ public class FeignClientRunner implements CommandLineRunner {
 	private MyFeignClient myFeignClient;
 	
 	public FeignClientRunner(MyFeignClient myFeignClient) {
+		System.out.println(myFeignClient.getClass().getName());
 		this.myFeignClient = myFeignClient;
 	}
 
