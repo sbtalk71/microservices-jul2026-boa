@@ -16,8 +16,15 @@ public class HrService {
 	public EmpDTO findEmp(Integer id) {
 
 		return clientBuilder.build()
-				.get().uri("http://localhost:8181/emp/" + id)
+				.get().uri("http://emp-service/emp/" + id)
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve().body(EmpDTO.class);
+	}
+	
+	public String testBalancer() {
+
+		return clientBuilder.build()
+				.get().uri("http://emp-service/balancer-test")
+				.retrieve().body(String.class);
 	}
 }

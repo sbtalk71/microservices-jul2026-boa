@@ -23,5 +23,9 @@ public class HrController {
 		return ResponseEntity.ok(hrService.findEmp(id));
 	}
 
+	@GetMapping("test")
+	public String testBalancer() {
+		return hrService.testBalancer();
+	}
 	
 }
