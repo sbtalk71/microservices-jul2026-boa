@@ -43,6 +43,7 @@ public class SecurityConfig {
 	BCryptPasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
 	@Bean
 	MapReactiveUserDetailsService mapReactiveUserDetailsService(PasswordEncoder encoder) {
 		 
