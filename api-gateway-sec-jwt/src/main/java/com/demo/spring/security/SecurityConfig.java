@@ -1,0 +1,67 @@
+package com.demo.spring.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+
+import com.demo.spring.KeycloakGrantedAuthoritiesConverter;
+
+import reactor.core.publisher.Mono;
+
+@Configuration
+@EnableWebFluxSecurity
+public class SecurityConfig {
+
+	@Bean
+	public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+		http.authorizeExchange(exchange -> exchange.pathMatchers("/hr/**").hasRole("USER").pathMatchers("/emp/**")
+				.hasRole("ADMIN").anyExchange().authenticated());
+		http.csrf(ServerHttpSecurity.CsrfSpec::disable);
+		//http.httpBasic(Customizer.withDefaults());
+		http.oauth2ResourceServer(oauth ->
+        oauth.jwt(jwt ->
+
+        jwt.jwtAuthenticationConverter(
+                jwtAuthenticationConverter())));
+		return http.build();
+	}
+
+	@Bean
+	BCryptPasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
+	@Bean
+	MapReactiveUserDetailsService mapReactiveUserDetailsService(PasswordEncoder encoder) {
+		 
+		UserDetails admin=User.builder().username("shantanu").password(encoder.encode("welcome1")).roles("ADMIN").build();
+		UserDetails user=User.builder().username("pavan").password(encoder.encode("welcome1")).roles("USER").build();
+		UserDetails other=User.builder().username("other").password(encoder.encode("welcome1")).roles("USER").build();
+		return new MapReactiveUserDetailsService(admin,user,other);
+	}
+
+	@Bean
+	Converter<Jwt, Mono<AbstractAuthenticationToken>> jwtAuthenticationConverter() {
+
+	    JwtAuthenticationConverter converter =
+	            new JwtAuthenticationConverter();
+
+	    converter.setJwtGrantedAuthoritiesConverter(
+	            new KeycloakGrantedAuthoritiesConverter());
+
+	    return new ReactiveJwtAuthenticationConverterAdapter(converter);
+	}
+	
+}

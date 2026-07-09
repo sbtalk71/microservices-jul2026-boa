@@ -1,0 +1,58 @@
+server:
+ port: 9090
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/myrealm
+          jwk-set-uri: http://localhost:8080/realms/myrealm/protocol/openid-connect/certs
+  application:
+   name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+          - id: hr-service
+            uri: http://localhost:8280
+            predicates:
+              - Path=/hr/**
+            filters:
+              - name:  CircuitBreaker
+                args:
+                 name: hr-service-cb
+                 fallbackUri: forward:/hr-fallback
+         #----------------------------				
+          - id: emp-service
+            uri: lb://emp-service
+            predicates:
+             - Path=/emp/**
+         #----------------------------  
+          - id: test-service
+            uri: http://www.google.co.in
+            predicates:
+              - Path=/test/**
+ 
+eureka:
+ client:
+  register-with-eureka: true
+  fetch-registry: true
+  service-url:
+   defaultZone: http://localhost:8761/eureka/ 
+   
+resilience4j:
+  circuitbreaker:
+    instances:
+     hr-service-cb:
+       registerHealthIndicator: true
+       slidingWindowSize: 10
+       permittedNumberOfCallsInHalfOpenState: 3
+       slidingWindowType: COUNT_BASED
+       minimumNumberOfCalls: 2
+       waitDurationInOpenState: 10s
+       failureRateThreshold: 33.3
+       automaticTransitionFromOpenToHalfOpenEnabled: true
+logging:
+ level:
+    org.springframework.security: debug
