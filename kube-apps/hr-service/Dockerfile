@@ -1,11 +1,8 @@
 FROM eclipse-temurin:21.0.11_10-jdk-noble
 WORKDIR /app/
 COPY target/*.jar app.jar
-EXPOSE 8181
-ENV DB_HOST=localhost
-ENV DB_PORT=3306
-ENV DB_USER=root
-ENV DB_PASSWORD=P@ssword
+EXPOSE 8280
+ENV EMP_SERVICE_URL=localhost:8181
 CMD java -jar app.jar
 
 ## CD to the location of Dockerfile

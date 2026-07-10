@@ -23,7 +23,7 @@ public class HrService {
 	public EmpDTO findEmp(Integer id) {
 
 		return clientBuilder.build()
-				.get().uri(targetUri + id)
+				.get().uri(targetUri+"/emp/"+ + id)
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve().body(EmpDTO.class);
 	}
@@ -36,7 +36,7 @@ public class HrService {
 	public String testBalancer() {
 
 		return clientBuilder.build()
-				.get().uri("http://emp-service/balancer-test")
+				.get().uri(targetUri+"/balancer-test")
 				.retrieve().body(String.class);
 	}
 }

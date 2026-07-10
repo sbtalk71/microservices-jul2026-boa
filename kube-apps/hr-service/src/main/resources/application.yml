@@ -30,4 +30,4 @@ management:
       enabled: true
 emp:
  service:
-  uri: http://emp-service/emp/
+  uri: http://${EMP_SERVICE_URL:localhost:8181}
