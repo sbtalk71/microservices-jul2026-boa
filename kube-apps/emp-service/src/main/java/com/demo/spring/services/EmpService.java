@@ -26,7 +26,7 @@ public class EmpService {
 	
 	Logger logger=LoggerFactory.getLogger(this.getClass().getName());
 	
-	@Observed(name="emp.find.one")
+	@Observed(name = "emp.find.one")
 	public Emp findOneEmp(Integer id) {
 		Optional<Emp> empOp= empRepository.findById(id);
 		
