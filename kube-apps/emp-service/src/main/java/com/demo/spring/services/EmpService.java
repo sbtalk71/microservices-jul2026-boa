@@ -12,6 +12,8 @@ import com.demo.spring.EmpRepository;
 import com.demo.spring.entities.Emp;
 import com.demo.spring.exceptions.EmpNotFoundException;
 
+import io.micrometer.observation.annotation.Observed;
+
 @Service
 public class EmpService {
 
@@ -24,6 +26,7 @@ public class EmpService {
 	
 	Logger logger=LoggerFactory.getLogger(this.getClass().getName());
 	
+	@Observed(name="emp.find.one")
 	public Emp findOneEmp(Integer id) {
 		Optional<Emp> empOp= empRepository.findById(id);
 		
@@ -38,6 +41,7 @@ public class EmpService {
 		//return empRepository.findById(id).orElseThrow(RuntimeException::new);
 	}
 	
+	@Observed(name="emp.find.all")
 	public List<Emp> getAll(){
 		logger.info("getting all the employees data");
 		return empRepository.findAll();
